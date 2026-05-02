@@ -130,3 +130,15 @@ npm test
 npm run test:mocha
 npm run test:all
 ```
+
+## CI/CD
+
+O projeto possui pipeline no GitHub Actions em `.github/workflows/ci.yml`.
+
+A pipeline executa em `push` e `pull_request` para a branch `main`:
+
+- instala dependencias com `npm ci`;
+- gera o Prisma Client;
+- valida se `docs/openapi.json` esta sincronizado com o Swagger do codigo;
+- executa testes Jest e Mocha/Chai/Supertest;
+- roda `npm audit --audit-level=high`.

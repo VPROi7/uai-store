@@ -12,6 +12,7 @@
     "test:all": "npm run test && npm run test:mocha",
     "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
     "swagger:export": "node scripts/export-openapi.js",
+    "swagger:check": "node scripts/check-openapi.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "node prisma/seed.js",

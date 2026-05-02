@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Testes e qualidade
+    runs-on: ubuntu-latest
+
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://uai_store:uai_store@localhost:5432/uai_store?schema=public
+      JWT_SECRET: ci-secret
+      JWT_EXPIRES_IN: 1h
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Gerar Prisma Client
+        run: npm run prisma:generate
+
+      - name: Validar OpenAPI estatico
+        run: npm run swagger:check
+
+      - name: Executar testes automatizados
+        run: npm run test:all
+
+      - name: Auditar dependencias
+        run: npm audit --audit-level=high
