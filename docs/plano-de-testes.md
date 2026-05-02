@@ -226,10 +226,9 @@ Exemplo:
 
 ## 12. Proximas Acoes De QA
 
-- Criar documento de Casos de Teste detalhados.
-- Criar matriz de Requisitos Funcionais.
-- Criar matriz de Requisitos Nao Funcionais.
+- Manter Requisitos Funcionais e Nao Funcionais atualizados a cada mudanca de escopo.
+- Manter Casos de Teste rastreados aos requisitos.
 - Adicionar testes de token invalido e expirado.
 - Adicionar teste especifico de inativacao.
 - Adicionar teste de concorrencia real com banco PostgreSQL.
-- Adicionar pipeline CI para executar `npm test`.
+- Adicionar pipeline CI para executar `npm run test:all`.

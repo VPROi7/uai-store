@@ -119,3 +119,14 @@ A documentacao OpenAPI inclui:
 Entregaveis de QA:
 
 - [Plano de Testes](docs/plano-de-testes.md)
+- [Requisitos Funcionais](docs/requisitos-funcionais.md)
+- [Requisitos Nao Funcionais](docs/requisitos-nao-funcionais.md)
+- [Casos de Teste](docs/casos-de-teste.md)
+
+Comandos de teste:
+
+```bash
+npm test
+npm run test:mocha
+npm run test:all
+```
