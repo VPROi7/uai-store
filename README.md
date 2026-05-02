@@ -1,5 +1,7 @@
 # UAI Store API
 
+Portfolio QA Engineer
+
 API backend para controle de estoque da UAI Store: queijos e doces de leite importados de Minas Gerais.
 
 ## Stack
