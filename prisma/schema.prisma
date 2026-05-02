@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  CLIENTE
+}
+
+enum ProductStatus {
+  ATIVO
+  INATIVO
+}
+
+enum StockMovementType {
+  ENTRADA
+  SAIDA
+}
+
+enum ProductHistoryAction {
+  ATUALIZACAO
+  INATIVACAO
+}
+
+model User {
+  id             Int             @id @default(autoincrement())
+  name           String
+  email          String          @unique
+  passwordHash   String          @map("password_hash")
+  role           UserRole        @default(CLIENTE)
+  createdAt      DateTime        @default(now()) @map("created_at")
+  stockMovements StockMovement[]
+  productHistory ProductHistory[]
+
+  @@map("users")
+}
+
+model Product {
+  id             Int             @id @default(autoincrement())
+  name           String
+  category       String
+  price          Decimal         @db.Decimal(10, 2)
+  stockQuantity  Int             @default(0) @map("stock_quantity")
+  minimumStock   Int             @default(0) @map("minimum_stock")
+  status         ProductStatus   @default(ATIVO)
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  stockMovements StockMovement[]
+  history         ProductHistory[]
+
+  @@index([name])
+  @@index([category])
+  @@index([status])
+  @@map("products")
+}
+
+model StockMovement {
+  id        Int               @id @default(autoincrement())
+  productId Int               @map("product_id")
+  userId    Int               @map("user_id")
+  type      StockMovementType
+  quantity  Int
+  reason    String
+  createdAt DateTime          @default(now()) @map("created_at")
+
+  product Product @relation(fields: [productId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@index([productId])
+  @@index([userId])
+  @@index([type])
+  @@index([createdAt])
+  @@map("stock_movements")
+}
+
+model ProductHistory {
+  id        Int                  @id @default(autoincrement())
+  productId Int                  @map("product_id")
+  userId    Int                  @map("user_id")
+  action    ProductHistoryAction
+  details   Json?
+  createdAt DateTime             @default(now()) @map("created_at")
+
+  product Product @relation(fields: [productId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@index([productId])
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("product_history")
+}
